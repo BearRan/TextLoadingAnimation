@@ -8,6 +8,10 @@
 
 #import "TextLineView.h"
 
+@interface TextLineView () <UIApplicationDelegate>
+
+@end
+
 @implementation TextLineView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -50,6 +54,7 @@
     _shapeLayer_1.strokeEnd = 1.0;
 
     CABasicAnimation *strokeEndAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    strokeEndAnimation.delegate = self;
     strokeEndAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
     strokeEndAnimation.toValue = [NSNumber numberWithFloat:1.0f];
     strokeEndAnimation.duration = 1.4f;
@@ -72,6 +77,7 @@
     _shapeLayer_1.strokeEnd = 0.5;
     
     CABasicAnimation *basicAnimation_1 = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    basicAnimation_1.delegate = self;
     basicAnimation_1.fromValue = [NSNumber numberWithFloat:0.5];
     basicAnimation_1.toValue = [NSNumber numberWithFloat:0];
     basicAnimation_1.duration = duration;
@@ -90,6 +96,7 @@
     _shapeLayer_2.strokeStart = 0.5;
     
     CABasicAnimation *basicAnimation_2 = [CABasicAnimation animationWithKeyPath:@"strokeStart"];
+    basicAnimation_2.delegate = self;
     basicAnimation_2.fromValue = [NSNumber numberWithFloat:0.5];
     basicAnimation_2.toValue = [NSNumber numberWithFloat:1.0];
     basicAnimation_2.duration = duration;
@@ -98,6 +105,12 @@
     [_shapeLayer_2 addAnimation:basicAnimation_2 forKey:basicAnimation_2.keyPath];
 }
 
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if ([_delegate respondsToSelector:@selector(textLineAnimateStop:)]) {
+        [_delegate textLineAnimateStop:self];
+    }
+}
 
 
 /*

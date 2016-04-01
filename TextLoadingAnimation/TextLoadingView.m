@@ -9,7 +9,7 @@
 #import "TextLoadingView.h"
 #import "TextLineView.h"
 
-@interface TextLoadingView ()
+@interface TextLoadingView () <TextLineAnimateDelegate>
 {
     UIImageView     *_paperImageView;
     UIImageView     *_checkImageView;
@@ -30,6 +30,7 @@
     
     self.backgroundColor = [UIColor orangeColor];
     
+    _textAnimateStatus = kTextAnimate_Start;
     [self createUI];
     
     return self;
@@ -60,6 +61,7 @@
     for (int i = 0; i < lineBgView_count; i++) {
         
         TextLineView *textLineView = [[TextLineView alloc] initWithFrame:CGRectMake(0, 0, paper_width * line_width_Ratio, paper_height * line_height_Ratio)];
+        textLineView.delegate = self;
         textLineView.backgroundColor = [[UIColor orangeColor] colorWithAlphaComponent:0.7];
         [_paperImageView addSubview:textLineView];
         [_lineBgView_Array addObject:textLineView];
@@ -68,8 +70,8 @@
     
     [UIView BearAutoLayViewArray:_lineBgView_Array layoutAxis:kLAYOUT_AXIS_Y center:YES offStart:paper_height * line_startY_Ratio offEnd:paper_height * (line_endY_Ratio + line_gap_Ratio)];
     
-    [self performSelector:@selector(tempEvent_Start) withObject:nil afterDelay:1.0f];
-    [self performSelector:@selector(tempEvent_End) withObject:nil afterDelay:3.0f];
+    [self performSelector:@selector(textLineAnimation_Start) withObject:nil afterDelay:1.0f];
+//    [self performSelector:@selector(textLineAnimation_End) withObject:nil afterDelay:3.0f];
     
     
     
@@ -80,17 +82,55 @@
     
 }
 
-- (void)tempEvent_End
+
+- (void)textLineAnimation_Start
+{
+    TextLineView *textLineView = _lineBgView_Array[0];
+        [textLineView lineAnimation_Start];
+}
+
+
+- (void)textLineAnimation_End
 {
     for (TextLineView *textLineView in _lineBgView_Array) {
         [textLineView lineAnimation_End];
+        return;
     }
 }
 
-- (void)tempEvent_Start
+
+
+#pragma mark 重写方法
+
+@synthesize textAnimateStatus = _textAnimateStatus;
+- (void)setTextAnimateStatus:(TextAnimateStatus)textAnimateStatus
 {
-    for (TextLineView *textLineView in _lineBgView_Array) {
-        [textLineView lineAnimation_Start];
+    _textAnimateStatus = textAnimateStatus;
+    
+}
+
+#pragma mark TextLineView Delegate
+- (void)textLineAnimateStop:(TextLineView *)textLineView
+{
+    for (int i = 0; i < [_lineBgView_Array count]; i++) {
+        TextLineView *textLineView_Now = (TextLineView *)_lineBgView_Array[i];
+        
+        TextLineView *textLineView_Later;
+        if (i < [_lineBgView_Array count] - 1) {
+            textLineView_Later = (TextLineView *)_lineBgView_Array[i + 1];
+        }else{
+             textLineView_Later = (TextLineView *)_lineBgView_Array[0];
+        }
+        
+        if ([textLineView_Now isEqual:textLineView]) {
+            if (_textAnimateStatus == kTextAnimate_Start) {
+                [textLineView_Later lineAnimation_Start];
+            }
+            else if (_textAnimateStatus == kTextAnimate_End) {
+                
+            }
+        }
+        
     }
 }
 

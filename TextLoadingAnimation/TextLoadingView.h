@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+    kTextAnimate_Start,
+    kTextAnimate_End,
+}TextAnimateStatus;
+
 @interface TextLoadingView : UIView
 
 - (instancetype)initWithFrame:(CGRect)frame;
+
+@property (assign, nonatomic) TextAnimateStatus textAnimateStatus;
 
 @end

@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+
+
+@class TextLineView;
+
+@protocol TextLineAnimateDelegate <NSObject>
+
+@required
+- (void)textLineAnimateStop:(TextLineView *)textLineView;
+
+@end
+
+
+
 @interface TextLineView : UIView
 
 @property (strong, nonatomic) CAShapeLayer  *shapeLayer_1;
@@ -15,6 +28,7 @@
 
 @property (strong, nonatomic) UIBezierPath  *bezierPath_1;
 @property (strong, nonatomic) UIBezierPath  *bezierPath_2;
+@property (assign, nonatomic) id <TextLineAnimateDelegate> delegate;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 
