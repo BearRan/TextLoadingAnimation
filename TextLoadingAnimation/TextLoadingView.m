@@ -44,8 +44,8 @@
     [_paperImageView BearSetCenterToParentViewWithAxis:kAXIS_X_Y];
     
     
-    [_paperImageView setWidth:150];
-    [_paperImageView setHeight:200];
+//    [_paperImageView setWidth:150];
+//    [_paperImageView setHeight:200];
     
     int lineBgView_count = 3;
     _lineBgView_Array = [NSMutableArray new];
@@ -70,14 +70,12 @@
     
     [UIView BearAutoLayViewArray:_lineBgView_Array layoutAxis:kLAYOUT_AXIS_Y center:YES offStart:paper_height * line_startY_Ratio offEnd:paper_height * (line_endY_Ratio + line_gap_Ratio)];
     
-//    [self performSelector:@selector(textLineAnimation_Start) withObject:nil afterDelay:1.0f];
-//    [self performSelector:@selector(textLineAnimation_End) withObject:nil afterDelay:1.5f];
     
     
-    
-//    _checkImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ICON_Check"]];
-//    [_paperImageView addSubview:_checkImageView];
-//    [_checkImageView BearSetCenterToParentViewWithAxis:kAXIS_X_Y];
+    _checkImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ICON_Check"]];
+    [_paperImageView addSubview:_checkImageView];
+    [_checkImageView BearSetCenterToParentViewWithAxis:kAXIS_X_Y];
+    _checkImageView.alpha = 0;
     
     
 }
@@ -124,6 +122,26 @@
     
 }
 
+- (void)checkIconScaleAmiantion
+{
+    _textAnimateStatus = kTextAnimate_ShowOut_Finish;
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        for (TextLineView *textLineView in _lineBgView_Array) {
+            textLineView.alpha = 0;
+        }
+    }];
+    
+    
+    CAKeyframeAnimation *keyframeAnimation = [CAKeyframeAnimation animation];
+    keyframeAnimation.values = @[@0.2, @0.6, @0.8, @1.0, @1.2, @1.3, @1.2, @1.0, @0.8, @1.0];
+    keyframeAnimation.duration = 0.6;
+    keyframeAnimation.keyPath = @"transform.scale";
+    _checkImageView.alpha = 1;
+    [_checkImageView.layer addAnimation:keyframeAnimation forKey:keyframeAnimation.keyPath];
+    
+}
+
 
 
 #pragma mark 重写方法
@@ -153,12 +171,15 @@
             BOOL res1 = (_textAnimateStatus == kTextAnimate_ShowIn);
             BOOL res2 = (_textAnimateStatus == kTextAnimate_ShowOut_Wait);
             BOOL res3 = (i == [_lineBgView_Array count] - 1);
+            BOOL res4 = (_textAnimateStatus == kTextAnimate_ShowOut_Run);
             
             if (res1 || (res2 && !res3)) {
                 [textLineView_Later lineAnimation_Start];
             }
             else if (res2 && res3) {
                 [self textLineAnimation_Detail];
+            }else if (res3 && res4){
+                [self checkIconScaleAmiantion];
             }
         }
         
