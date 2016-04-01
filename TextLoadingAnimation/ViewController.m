@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "TextLoadingView.h"
 
-@interface ViewController ()
+@interface ViewController () <TextLoadingAnimationFinishDelegate>
 {
     TextLoadingView *textLoagdingView;
 }
@@ -24,6 +24,7 @@
     CGFloat loadingView_width = 300;
     
     textLoagdingView = [[TextLoadingView alloc] initWithFrame:CGRectMake(0, 0, loadingView_width, loadingView_width)];
+    textLoagdingView.delegate = self;
     [self.view addSubview:textLoagdingView];
     [textLoagdingView BearSetCenterToParentViewWithAxis:kAXIS_X_Y];
     
@@ -44,6 +45,11 @@
     dispatch_after(timer, dispatch_get_main_queue(), ^{
         [textLoagdingView textLineAnimation_End];
     });
+}
+
+- (void)textLoadingAnimationFinish
+{
+    NSLog(@"finish");
 }
 
 - (void)didReceiveMemoryWarning {

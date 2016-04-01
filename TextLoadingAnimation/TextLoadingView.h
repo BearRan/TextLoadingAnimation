@@ -16,11 +16,22 @@ typedef enum {
     kTextAnimate_Check_Finish,
 }TextAnimateStatus;
 
+
+
+@protocol TextLoadingAnimationFinishDelegate <NSObject>
+
+@required
+- (void)textLoadingAnimationFinish;
+
+@end
+
+
 @interface TextLoadingView : UIView
 
 - (instancetype)initWithFrame:(CGRect)frame;
 
 @property (assign, nonatomic) TextAnimateStatus textAnimateStatus;
+@property (assign, nonatomic) id<TextLoadingAnimationFinishDelegate> delegate;
 
 - (void)textLineAnimation_Start;
 - (void)textLineAnimation_End;

@@ -160,7 +160,10 @@
     _textAnimateStatus = textAnimateStatus;
 }
 
+
+
 #pragma mark TextLineView Delegate
+
 - (void)textLineAnimateStop:(TextLineView *)textLineView
 {
     for (int i = 0; i < [_lineBgView_Array count]; i++) {
@@ -193,6 +196,22 @@
         
     }
 }
+
+
+
+#pragma mark CAAnimation Delegate
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    _textAnimateStatus = kTextAnimate_Check_Finish;
+    
+    if ([_delegate respondsToSelector:@selector(textLoadingAnimationFinish)]) {
+        [_delegate textLoadingAnimationFinish];
+    }
+}
+
+
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

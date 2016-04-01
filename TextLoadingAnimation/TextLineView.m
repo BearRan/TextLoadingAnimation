@@ -105,6 +105,10 @@
     [_shapeLayer_2 addAnimation:basicAnimation_2 forKey:basicAnimation_2.keyPath];
 }
 
+
+
+#pragma mark CAAnimation Delegate
+
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
     if ([_delegate respondsToSelector:@selector(textLineAnimateStop:)]) {
