@@ -51,13 +51,13 @@
     [_bezierPath_1 moveToPoint:CGPointMake(0, self.height/2.0)];
     [_bezierPath_1 addLineToPoint:CGPointMake(self.width, self.height/2.0)];
     _shapeLayer_1.path = _bezierPath_1.CGPath;
-    _shapeLayer_1.strokeEnd = 1.0;
+    _shapeLayer_1.strokeEnd = 0.5;
 
     CABasicAnimation *strokeEndAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
     strokeEndAnimation.delegate = self;
     strokeEndAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
     strokeEndAnimation.toValue = [NSNumber numberWithFloat:1.0f];
-    strokeEndAnimation.duration = 1.4f;
+    strokeEndAnimation.duration = 0.7f;
     strokeEndAnimation.removedOnCompletion = NO;
     strokeEndAnimation.fillMode = kCAFillModeForwards;
     [_shapeLayer_1 addAnimation:strokeEndAnimation forKey:strokeEndAnimation.keyPath];

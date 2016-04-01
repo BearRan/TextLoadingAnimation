@@ -30,7 +30,7 @@
     
     self.backgroundColor = [UIColor orangeColor];
     
-    _textAnimateStatus = kTextAnimate_Start;
+    _textAnimateStatus = kTextAnimate_ShowIn;
     [self createUI];
     
     return self;
@@ -70,8 +70,8 @@
     
     [UIView BearAutoLayViewArray:_lineBgView_Array layoutAxis:kLAYOUT_AXIS_Y center:YES offStart:paper_height * line_startY_Ratio offEnd:paper_height * (line_endY_Ratio + line_gap_Ratio)];
     
-    [self performSelector:@selector(textLineAnimation_Start) withObject:nil afterDelay:1.0f];
-//    [self performSelector:@selector(textLineAnimation_End) withObject:nil afterDelay:3.0f];
+//    [self performSelector:@selector(textLineAnimation_Start) withObject:nil afterDelay:1.0f];
+//    [self performSelector:@selector(textLineAnimation_End) withObject:nil afterDelay:1.5f];
     
     
     
@@ -85,17 +85,43 @@
 
 - (void)textLineAnimation_Start
 {
+    _textAnimateStatus = kTextAnimate_ShowIn;
+    
     TextLineView *textLineView = _lineBgView_Array[0];
-        [textLineView lineAnimation_Start];
+    [textLineView lineAnimation_Start];
 }
 
 
 - (void)textLineAnimation_End
 {
-    for (TextLineView *textLineView in _lineBgView_Array) {
-        [textLineView lineAnimation_End];
-        return;
-    }
+    _textAnimateStatus = kTextAnimate_ShowOut_Wait;
+}
+
+- (void)textLineAnimation_Detail
+{
+    _textAnimateStatus = kTextAnimate_ShowOut_Run;
+    
+    __block int i = 0;
+    CGFloat duration = 0.2f;   //间隔时间
+    dispatch_queue_t queue = dispatch_get_main_queue();
+    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    
+    dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, duration * NSEC_PER_SEC, 0);
+    dispatch_source_set_event_handler(timer, ^{
+        
+        
+        if (i > [_lineBgView_Array count] - 1) {
+            
+            dispatch_source_cancel(timer);  //执行i次后停止
+        }else{
+            
+            TextLineView *textLineView_1 = _lineBgView_Array[i];
+            [textLineView_1 lineAnimation_End];
+        }
+        i++;
+    });
+    dispatch_resume(timer);
+    
 }
 
 
@@ -106,13 +132,13 @@
 - (void)setTextAnimateStatus:(TextAnimateStatus)textAnimateStatus
 {
     _textAnimateStatus = textAnimateStatus;
-    
 }
 
 #pragma mark TextLineView Delegate
 - (void)textLineAnimateStop:(TextLineView *)textLineView
 {
     for (int i = 0; i < [_lineBgView_Array count]; i++) {
+        
         TextLineView *textLineView_Now = (TextLineView *)_lineBgView_Array[i];
         
         TextLineView *textLineView_Later;
@@ -123,11 +149,16 @@
         }
         
         if ([textLineView_Now isEqual:textLineView]) {
-            if (_textAnimateStatus == kTextAnimate_Start) {
+            
+            BOOL res1 = (_textAnimateStatus == kTextAnimate_ShowIn);
+            BOOL res2 = (_textAnimateStatus == kTextAnimate_ShowOut_Wait);
+            BOOL res3 = (i == [_lineBgView_Array count] - 1);
+            
+            if (res1 || (res2 && !res3)) {
                 [textLineView_Later lineAnimation_Start];
             }
-            else if (_textAnimateStatus == kTextAnimate_End) {
-                
+            else if (res2 && res3) {
+                [self textLineAnimation_Detail];
             }
         }
         

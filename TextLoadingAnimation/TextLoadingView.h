@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 
 typedef enum {
-    kTextAnimate_Start,
-    kTextAnimate_End,
+    kTextAnimate_ShowIn,
+    kTextAnimate_ShowOut_Wait,
+    kTextAnimate_ShowOut_Run,
+    kTextAnimate_ShowOut_Finish,
 }TextAnimateStatus;
 
 @interface TextLoadingView : UIView
@@ -18,5 +20,8 @@ typedef enum {
 - (instancetype)initWithFrame:(CGRect)frame;
 
 @property (assign, nonatomic) TextAnimateStatus textAnimateStatus;
+
+- (void)textLineAnimation_Start;
+- (void)textLineAnimation_End;
 
 @end
