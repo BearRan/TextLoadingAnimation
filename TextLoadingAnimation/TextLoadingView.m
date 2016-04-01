@@ -18,6 +18,8 @@
         self = nil;
     }
     
+    self.backgroundColor = [UIColor orangeColor];
+    
     return self;
 }
 

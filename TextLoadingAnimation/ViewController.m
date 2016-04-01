@@ -22,6 +22,7 @@
     
     TextLoadingView *textLoagdingView = [[TextLoadingView alloc] initWithFrame:CGRectMake(0, 0, loadingView_width, loadingView_width)];
     [self.view addSubview:textLoagdingView];
+    [textLoagdingView BearSetCenterToParentViewWithAxis:kAXIS_X_Y];
 }
 
 - (void)didReceiveMemoryWarning {
