@@ -7,6 +7,7 @@
 //
 
 #import "TextLoadingView.h"
+#import "TextLineView.h"
 
 @interface TextLoadingView ()
 {
@@ -41,6 +42,10 @@
     [self addSubview:_paperImageView];
     [_paperImageView BearSetCenterToParentViewWithAxis:kAXIS_X_Y];
     
+    
+    [_paperImageView setWidth:150];
+    [_paperImageView setHeight:200];
+    
     int lineBgView_count = 3;
     _lineBgView_Array = [NSMutableArray new];
     
@@ -54,13 +59,18 @@
     
     for (int i = 0; i < lineBgView_count; i++) {
         
-        UIView *lineBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, paper_width * line_width_Ratio, paper_height * line_height_Ratio)];
-        lineBgView.backgroundColor = [UIColor grayColor];
-        [_paperImageView addSubview:lineBgView];
-        [_lineBgView_Array addObject:lineBgView];
+        TextLineView *textLineView = [[TextLineView alloc] initWithFrame:CGRectMake(0, 0, paper_width * line_width_Ratio, paper_height * line_height_Ratio)];
+        textLineView.backgroundColor = [[UIColor orangeColor] colorWithAlphaComponent:0.7];
+        [_paperImageView addSubview:textLineView];
+        [_lineBgView_Array addObject:textLineView];
+
     }
     
     [UIView BearAutoLayViewArray:_lineBgView_Array layoutAxis:kLAYOUT_AXIS_Y center:YES offStart:paper_height * line_startY_Ratio offEnd:paper_height * (line_endY_Ratio + line_gap_Ratio)];
+    
+    [self performSelector:@selector(tempEvent_Start) withObject:nil afterDelay:1.0f];
+    [self performSelector:@selector(tempEvent_End) withObject:nil afterDelay:3.0f];
+    
     
     
 //    _checkImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ICON_Check"]];
@@ -70,6 +80,19 @@
     
 }
 
+- (void)tempEvent_End
+{
+    for (TextLineView *textLineView in _lineBgView_Array) {
+        [textLineView lineAnimation_End];
+    }
+}
+
+- (void)tempEvent_Start
+{
+    for (TextLineView *textLineView in _lineBgView_Array) {
+        [textLineView lineAnimation_Start];
+    }
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.

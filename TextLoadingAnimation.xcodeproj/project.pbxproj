@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18A8DCD41CAE41CF005D29CB /* TextLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A8DCD31CAE41CF005D29CB /* TextLineView.m */; };
 		18E64B131CAE122E0029B73A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E64B121CAE122E0029B73A /* main.m */; };
 		18E64B161CAE122E0029B73A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E64B151CAE122E0029B73A /* AppDelegate.m */; };
 		18E64B191CAE122E0029B73A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E64B181CAE122E0029B73A /* ViewController.m */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18A8DCD21CAE41CF005D29CB /* TextLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextLineView.h; sourceTree = "<group>"; };
+		18A8DCD31CAE41CF005D29CB /* TextLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextLineView.m; sourceTree = "<group>"; };
 		18E64B0E1CAE122D0029B73A /* TextLoadingAnimation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextLoadingAnimation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18E64B121CAE122E0029B73A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		18E64B141CAE122E0029B73A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -125,6 +128,8 @@
 				18E64B181CAE122E0029B73A /* ViewController.m */,
 				18E64B441CAE12B70029B73A /* TextLoadingView.h */,
 				18E64B451CAE12B70029B73A /* TextLoadingView.m */,
+				18A8DCD21CAE41CF005D29CB /* TextLineView.h */,
+				18A8DCD31CAE41CF005D29CB /* TextLineView.m */,
 				18E64B471CAE16120029B73A /* PrefixHeader.pch */,
 				18E64B1A1CAE122E0029B73A /* Main.storyboard */,
 				18E64B1D1CAE122E0029B73A /* Assets.xcassets */,
@@ -349,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18E64B191CAE122E0029B73A /* ViewController.m in Sources */,
+				18A8DCD41CAE41CF005D29CB /* TextLineView.m in Sources */,
 				18E64B161CAE122E0029B73A /* AppDelegate.m in Sources */,
 				18E64B461CAE12B70029B73A /* TextLoadingView.m in Sources */,
 				18E64B131CAE122E0029B73A /* main.m in Sources */,
