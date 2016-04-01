@@ -9,11 +9,13 @@
 #import "TextLoadingView.h"
 #import "TextLineView.h"
 
-@interface TextLoadingView () <TextLineAnimateDelegate>
+@interface TextLoadingView () <TextLineAnimateDelegate, UIApplicationDelegate>
 {
     UIImageView     *_paperImageView;
     UIImageView     *_checkImageView;
     NSMutableArray  *_lineBgView_Array;
+    
+    CAKeyframeAnimation *_checkKeyframeAnimation;
 }
 
 @end
@@ -85,6 +87,11 @@
 {
     _textAnimateStatus = kTextAnimate_ShowIn;
     
+    _checkImageView.alpha = 0;
+    for (TextLineView *textLineView in _lineBgView_Array) {
+        textLineView.alpha = 1;
+    }
+    
     TextLineView *textLineView = _lineBgView_Array[0];
     [textLineView lineAnimation_Start];
 }
@@ -133,12 +140,13 @@
     }];
     
     
-    CAKeyframeAnimation *keyframeAnimation = [CAKeyframeAnimation animation];
-    keyframeAnimation.values = @[@0.2, @0.6, @0.8, @1.0, @1.2, @1.3, @1.2, @1.0, @0.8, @1.0];
-    keyframeAnimation.duration = 0.6;
-    keyframeAnimation.keyPath = @"transform.scale";
+    _checkKeyframeAnimation = [CAKeyframeAnimation animation];
+    _checkKeyframeAnimation.delegate = self;
+    _checkKeyframeAnimation.values = @[@0.2, @0.6, @0.8, @1.0, @1.2, @1.3, @1.2, @1.0, @0.8, @1.0];
+    _checkKeyframeAnimation.duration = 0.6;
+    _checkKeyframeAnimation.keyPath = @"transform.scale";
     _checkImageView.alpha = 1;
-    [_checkImageView.layer addAnimation:keyframeAnimation forKey:keyframeAnimation.keyPath];
+    [_checkImageView.layer addAnimation:_checkKeyframeAnimation forKey:_checkKeyframeAnimation.keyPath];
     
 }
 

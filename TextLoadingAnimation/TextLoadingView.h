@@ -13,6 +13,7 @@ typedef enum {
     kTextAnimate_ShowOut_Wait,
     kTextAnimate_ShowOut_Run,
     kTextAnimate_ShowOut_Finish,
+    kTextAnimate_Check_Finish,
 }TextAnimateStatus;
 
 @interface TextLoadingView : UIView
